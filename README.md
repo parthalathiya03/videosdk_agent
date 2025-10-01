@@ -11,7 +11,19 @@ This project demonstrates how to build a voice-enabled **Retrieval-Augmented Gen
 - Provides a user-friendly interaction flow
 
 ## Getting Started
+## Project Structure
 
+```
+VidRag_Ollama/
+├── main.py                # Entry point for the voice AI agent
+├── rag_pipeline.py       # Local RAG pipeline for document retrieval
+├── docs/                      # Your knowledge base (.txt files)
+│   ├── videosdk.txt
+│   ├── petpooja.txt
+├── scripts/                
+├── requirements.txt      # Python dependencies
+└── README.md             # Project documentation
+```
 ### 1. Clone the Repository
 
 ```bash
@@ -98,5 +110,6 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 - Fallback to GPT-4o for unknown queries
 - Real-time logging of queries, retrieval, and responses
 - Smooth conversation flow with entry, message, and exit handling
+
 
 
