@@ -1,82 +1,104 @@
-## 🎙️ Voice RAG with VideoSdk Agents SDK
+# 🎙️ Voice RAG with VideoSDK Agents SDK
 
-This script demonstrates how to build a voice-enabled Retrieval-Augmented Generation (RAG) system using VideoSdk Agents SDK. The application allows users to commuincate direct to the agent, ask questions, and receive voice responses using VideoSdk Agents SDK capabilities.
+This project demonstrates how to build a voice-enabled **Retrieval-Augmented Generation (RAG) system** using **VideoSDK Agents SDK**. Users can communicate directly with the agent, ask questions, and receive voice responses.
 
-### Features
+## Features
 
-- Creates a voice-enabled RAG system using VideoSdk Agents SDK
-- Supports voice processing and chunking(STT --> TTS)
-- Uses FAISS as the vector database for efficient similarity search
-- Implements real-time text-to-speech with voice options
-- Provides a user-friendly interface
+- Voice-enabled RAG system using VideoSDK Agents SDK
+- Supports end-to-end voice processing: **STT → RAG → TTS**
+- Uses **FAISS** for efficient document similarity search
+- Real-time text-to-speech with multiple voice options
+- Provides a user-friendly interaction flow
 
-### How to get Started?
+## Getting Started
 
-1. Create and activate a virtual environment with Python 3.12 or higher:
-   python3.12 -m venv venv
-   source venv/bin/activate
-
-2. Install the required dependencies:
-   pip install "videosdk-agents[deepgram,openai,elevenlabs,silero,turn_detector]"
-
-<!-- ```bash
-pip install -r requirements.txt
-``` -->
-
-3. Set up your API keys:
-
-- Get your [DEEPGRAM_API_KEY] ("https://console.deepgram.com/")
-- Get your [OPENAI_API_KEY]("https://platform.openai.com/api-keys")
-- Get your [ELEVENLABS_API_KEY]("https://elevenlabs.io/app/settings/api-keys")
-- Get your [VIDEOSDK_AUTH_TOKEN]("https://docs.videosdk.live/ai_agents/authentication-and-token")
-
-- Create a `.env` file with your credentials:
+### 1. Clone the Repository
 
 ```bash
-DEEPGRAM_API_KEY = "Your Deepgram API Key"
-OPENAI_API_KEY = "Your OpenAI API Key"
-ELEVENLABS_API_KEY = "Your ElevenLabs API Key"
-VIDEOSDK_AUTH_TOKEN = "VideoSDK Auth token"
+git clone https://github.com/parthalathiya03/videosdk_agent.git
+cd videosdk_agent
 ```
 
-4. Run the Voice RAG application:
+### 2. Create and Activate Virtual Environment
+
+```bash
+# macOS/Linux
+python3.12 -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install "videosdk-agents[deepgram,openai,elevenlabs,silero,turn_detector]"
+```
+
+Or using `requirements.txt` if available:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set up API Keys
+
+Create a `.env` file in the project root with the following:
+
+```env
+DEEPGRAM_API_KEY="Your Deepgram API Key"
+OPENAI_API_KEY="Your OpenAI API Key"
+ELEVENLABS_API_KEY="Your ElevenLabs API Key"
+VIDEOSDK_AUTH_TOKEN="Your VideoSDK Auth token"
+```
+
+### 5. Run the Application
 
 ```bash
 python main.py
+# or console mode
 python main.py console
 ```
 
-5. Open your web browser and navigate to the URL provided in the console output to interact with the Voice RAG system.
+Open the browser URL displayed in the console to interact with the Voice RAG agent.
 
-1.User Speech Input (STT):
+## How It Works
 
-● The user speaks through their microphone.
-● Speech is converted to text in real-time using DeepgramSTT.
-● Text is passed to the RAG pipeline or fallback LLM for processing.
+### 1. User Speech Input (STT)
 
-2.RAG Query Processing:
+- User speaks through their microphone
+- **DeepgramSTT** converts speech to text in real-time
+- Text is passed to the RAG pipeline or fallback LLM
 
-● The text query is analyzed to find relevant information from local documents stored in the docs/ folder.
-● Documents are split into manageable chunks using LangChain’s RecursiveCharacterTextSplitter.
-●Each chunk is embedded using HuggingFace Sentence Transformers.
-●The nearest neighbor search retrieves the most relevant document chunks.
-●If no relevant documents are found, the system falls back to OpenAI GPT-4o for a response.
+### 2. RAG Query Processing
 
-3.Response Generation:
+- Queries are analyzed against local documents in the `docs/` folder
+- Documents are split into chunks using **LangChain RecursiveCharacterTextSplitter**
+- Chunks are embedded using **HuggingFace Sentence Transformers**
+- **FAISS** retrieves the most relevant document chunks
+- If no relevant documents are found, **OpenAI GPT-4o** generates the response
 
-●The agent generates a coherent response based on RAG context or LLM output.
-●Responses are optimized to be spoken-word friendly for audio delivery.
+### 3. Response Generation
 
-4.Voice Output (TTS):
+- Agent creates coherent responses from RAG context or LLM output
+- Responses are optimized for spoken-word delivery
 
-●Text responses are converted to speech using ElevenLabsTTS.
-●Users can hear the response in real-time.
-●The system ensures smooth, natural audio playback for interactive conversations.
+### 4. Voice Output (TTS)
 
-5.Features:
+- Responses are converted to speech using **ElevenLabsTTS**
+- Users hear the response in real-time
+- Ensures smooth, natural audio playback
 
-●End-to-end voice interaction: STT → RAG → TTS.
-●Local knowledge retrieval from .txt documents.
-●Fallback to GPT-4o for unknown queries.
-●Real-time logging of queries, retrieval, and agent responses.
-●Seamless conversation flow with entry, user message, and exit handling.
+### 5. Features
+
+- End-to-end voice interaction: **STT → RAG → TTS**
+- Local knowledge retrieval from `.txt` documents
+- Fallback to GPT-4o for unknown queries
+- Real-time logging of queries, retrieval, and responses
+- Smooth conversation flow with entry, message, and exit handling
+
+## GitHub Repository
+
+[https://github.com/parthalathiya03/videosdk_agent](https://github.com/parthalathiya03/videosdk_agent)
