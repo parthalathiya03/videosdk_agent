@@ -99,6 +99,4 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 - Real-time logging of queries, retrieval, and responses
 - Smooth conversation flow with entry, message, and exit handling
 
-## GitHub Repository
 
-[https://github.com/parthalathiya03/videosdk_agent](https://github.com/parthalathiya03/videosdk_agent)
