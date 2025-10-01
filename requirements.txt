@@ -1,0 +1,23 @@
+    # Core SDK
+videosdk
+
+# Speech to Text
+deepgram-sdk
+
+# Text to Speech
+elevenlabs
+
+# Language Models (for RAG and embeddings)
+langchain
+langchain-community
+langchain-huggingface
+sentence-transformers
+faiss-cpu
+
+# OpenAI fallback (optional)
+openai
+
+# Utilities
+python-dotenv
+numpy
+tqdm
