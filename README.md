@@ -11,6 +11,42 @@ This project demonstrates how to build a voice-enabled **Retrieval-Augmented Gen
 - Provides a user-friendly interaction flow
 
 ## Getting Started
+START
+                  │
+            🎤 Voice Input 
+                  │
+                  ▼
+      🔊 Speech-to-Text (Deepgram)
+                  │
+                  ▼
+      🔍 Generate Query Embedding
+                  │
+                  ▼
+      📚 Search Documents (FAISS)
+                  │
+          ┌───────┴───────┐
+          │               │
+          ▼               ▼
+  ✅ Docs Found    ❌ No Docs Found
+          │               │
+          ▼               ▼
+  🤖 Ollama +       🤖 Ollama
+     Context          Base LLM
+          │               │
+          └───────┬───────┘
+                  │
+                  ▼
+          💬 Generate Answer
+                  │
+                  ▼
+      🗣️ Text-to-Speech (ElevenLabs)
+                  │
+                  ▼
+          🎧 Play Audio
+                  │
+                  ▼
+                 END
+                 
 ## Project Structure
 
 ```
@@ -110,6 +146,7 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 - Fallback to GPT-4o for unknown queries
 - Real-time logging of queries, retrieval, and responses
 - Smooth conversation flow with entry, message, and exit handling
+
 
 
 
