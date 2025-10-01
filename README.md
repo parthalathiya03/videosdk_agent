@@ -11,31 +11,6 @@ This project demonstrates how to build a voice-enabled **Retrieval-Augmented Gen
 - Provides a user-friendly interaction flow
 
 ## Getting Started
-
-## 🎯 System Flowchart
-```mermaid
-graph TD
-    A[👤 User] -->|Voice or Text| B{Input Type?}
-    B -->|🎤 Voice| C[🔊 Deepgram STT]
-    B -->|⌨️ Text| D[Direct Query]
-    C --> E[📝 Text Query]
-    D --> E
-    E --> F[🔍 Generate Embedding<br/>sentence-transformers]
-    F --> G[📚 FAISS Vector Search]
-    G --> H{Documents<br/>Found?}
-    H -->|✅ Yes<br/>Distance < 0.6| I[📄 Retrieve Context]
-    H -->|❌ No<br/>Distance > 0.6| J[⚠️ No Context]
-    I --> K[🤖 Ollama + Context<br/>Grounded Answer]
-    J --> L[🤖 Ollama Base<br/>General Knowledge]
-    K --> M[💬 Generated Answer]
-    L --> M
-    M --> N[🗣️ ElevenLabs TTS]
-    N --> O[🎧 Audio Output]
-    O --> P[👤 User Hears Response]
-    
-    style H fill:#f9f,stroke:#333,stroke-width:4px
-    style K fill:#bfb,stroke:#333,stroke-width:2px
-    style L fill:#fbf,stroke:#333,stroke-width:2px
       
 ## Project Structure
 
