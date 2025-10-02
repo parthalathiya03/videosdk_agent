@@ -11,6 +11,13 @@ This project demonstrates how to build a voice-enabled **Retrieval-Augmented Gen
 - Provides a user-friendly interaction flow
 
 ## Getting Started
+## 🎙️ Voice RAG with VideoSDK Agents SDK — Demonstration
+
+This project showcases how to build a **voice-enabled Retrieval-Augmented Generation (RAG) system** using **VideoSDK Agents SDK**.  
+Users can interact naturally with the AI agent — ask questions via voice, and receive intelligent **spoken responses** powered by local knowledge and RAG techniques.
+
+🎥 [Watch the Demonstration](https://drive.google.com/file/d/1R6rTu84qz5HyDgXm6jXU9w2NqdOYr7js/view?usp=sharing)
+
       
 ## Project Structure
 
@@ -111,6 +118,7 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 - Fallback to GPT-4o for unknown queries
 - Real-time logging of queries, retrieval, and responses
 - Smooth conversation flow with entry, message, and exit handling
+
 
 
 
