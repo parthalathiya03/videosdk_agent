@@ -1,102 +1,58 @@
-# # rag_pipeline.py
-# import os
-# import glob
-# from langchain_community.vectorstores import FAISS
-# from langchain_huggingface import HuggingFaceEmbeddings
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.schema import Document
-# from dotenv import load_dotenv
-
-# load_dotenv()
-
-
-# def build_rag():
-#     print("📚 Loading local docs...")
-#     doc_files = glob.glob("docs/*.txt")
-#     docs = []
-#     for file in doc_files:
-#         with open(file, "r", encoding="utf-8") as f:
-#             content = f.read()
-#             docs.append(Document(page_content=content,
-#                         metadata={"source": file}))
-
-#     splitter = RecursiveCharacterTextSplitter(
-#         chunk_size=500, chunk_overlap=100)
-#     split_docs = splitter.split_documents(docs)
-
-#     embedder = HuggingFaceEmbeddings(
-#         model_name="sentence-transformers/all-MiniLM-L6-v2")
-#     vectorstore = FAISS.from_documents(split_docs, embedder)
-
-#     print("✅ RAG ready with", len(split_docs), "chunks")
-#     return vectorstore.as_retriever(search_kwargs={"k": 3})
-
-
-# retriever = build_rag()
-
-
-# def query_rag(question: str):
-#     docs = retriever.get_relevant_documents(question)
-#     if not docs:
-#         return None
-#     context = "\n".join([d.page_content for d in docs])
-#     return f"Based on my local knowledge:\n{context}"
-
-
-# with logging
-
 import os
-import glob
-import logging
-from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.schema import Document
-from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
+import numpy as np
+import faiss
+import ollama
 
-load_dotenv()
+class LocalRAG:
+    def __init__(self, docs_path="docs", similarity_threshold=0.6):
+        self.docs_path = docs_path
+        self.similarity_threshold = similarity_threshold
+        self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
+        self.docs, self.doc_texts = self.load_docs()
+        self.index, self.embeddings = self.build_index()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
-logger = logging.getLogger(__name__)
+    def load_docs(self):
+        docs = []
+        for filename in os.listdir(self.docs_path):
+            if filename.endswith(".txt"):
+                path = os.path.join(self.docs_path, filename)
+                with open(path, "r", encoding="utf-8") as f:
+                    docs.append(f.read())
+        return docs, docs
+
+    def build_index(self):
+        embeddings = self.embedder.encode(self.doc_texts)
+        dim = embeddings.shape[1]
+        index = faiss.IndexFlatL2(dim)
+        index.add(np.array(embeddings))
+        return index, embeddings
+
+    def retrieve(self, query, top_k=2):
+        query_embedding = self.embedder.encode([query])
+        distances, indices = self.index.search(query_embedding, top_k)
+        context_docs = []
+        for idx, distance in zip(indices[0], distances[0]):
+            if distance < self.similarity_threshold:
+                context_docs.append(self.doc_texts[idx])
+        return context_docs
+
+    def query_rag(self, query):
+        context_docs = self.retrieve(query)
+        if context_docs:
+            context = "\n\n".join(context_docs)
+            return f"Here's what I found:\n{context}"
+        else:
+            return None
 
 
-def build_rag():
-    logger.info("📚 Loading local docs...")
-    doc_files = glob.glob("docs/*.txt")
-    docs = []
-    for file in doc_files:
-        with open(file, "r", encoding="utf-8") as f:
-            content = f.read()
-            docs.append(Document(page_content=content,
-                        metadata={"source": file}))
+rag = LocalRAG()
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500, chunk_overlap=100
-    )
-    split_docs = splitter.split_documents(docs)
-
-    embedder = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
-    vectorstore = FAISS.from_documents(split_docs, embedder)
-
-    logger.info(f"✅ RAG ready with {len(split_docs)} chunks")
-    return vectorstore.as_retriever(search_kwargs={"k": 3})
-
-
-retriever = build_rag()
-
-
-def query_rag(question: str):
-    docs = retriever.get_relevant_documents(question)
-    if not docs:
-        logger.warning("No relevant documents found for the query.")
-        return None
-    context = "\n".join([d.page_content for d in docs])
-    logger.info(f"Retrieved {len(docs)} documents for the query.")
-    return f"Based on my local knowledge:\n{context}"
+def query_rag(query):
+    response = rag.query_rag(query)
+    if response:
+        return response
+    else:
+        # Fallback to local Ollama for out of the context questions
+        result = ollama.chat(model="llama3", messages=[{"role": "user", "content": query}])
+        return result['message']['content']
