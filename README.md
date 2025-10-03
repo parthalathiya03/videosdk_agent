@@ -112,7 +112,7 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 - Documents are split into chunks using **LangChain RecursiveCharacterTextSplitter**
 - Chunks are embedded using **HuggingFace Sentence Transformers**
 - **FAISS** retrieves the most relevant document chunks
-- If no relevant documents are found, **OLLAMA** generates the response
+- If no relevant documents are found, **Ollama** generates the response
 
 ### 3. Response Generation
 
@@ -129,9 +129,10 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 
 - End-to-end voice interaction: **STT → RAG → TTS**
 - Local knowledge retrieval from `.txt` documents
-- Fallback to GPT-4o for unknown queries
+- Fallback to Ollama for unknown queries
 - Real-time logging of queries, retrieval, and responses
 - Smooth conversation flow with entry, message, and exit handling
+
 
 
 
