@@ -62,8 +62,22 @@ Or using `requirements.txt` if available:
 ```bash
 pip install -r requirements.txt
 ```
+### 4. Set up your Local Ollama model 
 
-### 4. Set up API Keys
+Ollama enables you to run open-source large language models (LLMs) directly on your machine. Follow these steps to get started:
+
+### 1. Install Ollama
+
+- **macOS**: Use Homebrew:
+```bash
+brew install ollama
+
+After installation, start the Ollama server:
+ollama serve
+ollama pull <model-name>
+ollama run <model-name>
+```
+### 5. Set up API Keys
 
 Create a `.env` file in the project root with the following:
 
@@ -74,7 +88,7 @@ ELEVENLABS_API_KEY="Your ElevenLabs API Key"
 VIDEOSDK_AUTH_TOKEN="Your VideoSDK Auth token"
 ```
 
-### 5. Run the Application
+### 6. Run the Application
 
 ```bash
 python main.py
@@ -118,6 +132,7 @@ Open the browser URL displayed in the console to interact with the Voice RAG age
 - Fallback to GPT-4o for unknown queries
 - Real-time logging of queries, retrieval, and responses
 - Smooth conversation flow with entry, message, and exit handling
+
 
 
 
